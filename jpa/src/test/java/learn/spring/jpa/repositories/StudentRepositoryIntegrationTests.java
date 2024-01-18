@@ -63,4 +63,16 @@ public class StudentRepositoryIntegrationTests {
         Optional<Student> result = underTest.findById(studentA.getId());
         assertThat(result).isEmpty();
     }
+    @Test
+    public void testThatGetStudentsWithAgelessThan(){
+        Student testStudentA = TestDataUtil.createTestStudentA();
+        underTest.save(testStudentA);
+        Student testAuthorB = TestDataUtil.createTestStudentB();
+        underTest.save(testAuthorB);
+        Student testAuthorC = TestDataUtil.createTestStudentC();
+        underTest.save(testAuthorC);
+
+        Iterable<Student> result = underTest.ageLessThan(22);
+        assertThat(result).containsExactly(testAuthorC);
+    }
 }
