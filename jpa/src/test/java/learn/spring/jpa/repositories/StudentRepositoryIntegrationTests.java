@@ -45,5 +45,14 @@ public class StudentRepositoryIntegrationTests {
                 .hasSize(3)
                 .containsExactly(studentA, studentB, studentC);
     }
-    
+    @Test
+    public void testThatStudentCanBeUpdated(){
+        Student studentA = TestDataUtil.createTestStudentA();
+        underTest.save(studentA);
+        studentA.setName("UPDATED");
+        underTest.save(studentA);
+        Optional<Student> result = underTest.findById(studentA.getId());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(studentA);
+    }
 }
