@@ -55,4 +55,12 @@ public class StudentRepositoryIntegrationTests {
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(studentA);
     }
+    @Test
+    public void testThatStudentCanBeDeleted(){
+        Student studentA = TestDataUtil.createTestStudentA();
+        underTest.save(studentA);
+        underTest.deleteById(studentA.getId());
+        Optional<Student> result = underTest.findById(studentA.getId());
+        assertThat(result).isEmpty();
+    }
 }
