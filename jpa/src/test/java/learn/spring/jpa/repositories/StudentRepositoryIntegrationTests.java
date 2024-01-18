@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,4 +31,19 @@ public class StudentRepositoryIntegrationTests {
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(student);
     }
+    @Test
+    public void testThatMultipleStudentCanBeCreatedAndRecalled(){
+        Student studentA = TestDataUtil.createTestStudentA();
+        underTest.save(studentA);
+        Student studentB = TestDataUtil.createTestStudentB();
+        underTest.save(studentB);
+        Student studentC = TestDataUtil.createTestStudentC();
+        underTest.save(studentC);
+
+        Iterable<Student> result = underTest.findAll();
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(studentA, studentB, studentC);
+    }
+    
 }
